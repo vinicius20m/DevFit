@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components/native";
 import { connect } from "react-redux";
 
 import DefaultButton from "../components/DefaultButton";
 import { Alert, Text } from "react-native";
+
+//---------------- STYLED COMPONENTS ---------------------------------
+//---------------- STYLED COMPONENTS ---------------------------------
 
 const Container = styled.SafeAreaView`
   flex: 1;
@@ -29,9 +32,15 @@ const DaysArea = styled.View`
   justify-content: space-between;
 `;
 
-const Page = props => {
-  let firstName = props.name.split(' ')[0];
+//---- END ------------ STYLED COMPONENTS -------------- END ---------------
 
+const Page = props => {
+  // Get the first name of the user
+  let firstName = props.name.split(' ')[0];
+  // useEffect(()=>{props.setWorkoutDays([]);}, []);
+
+
+  // Function to toggle the day buttons
   const toggleDay = d => {
     let newWorkoutDays = [...props.workoutDays];
 
@@ -50,6 +59,7 @@ const Page = props => {
       <HeaderText>Opa, <BoldText>{firstName}</BoldText>, tudo Bem?</HeaderText>
       <HeaderText>Quais <BoldText>dias da semana</BoldText> você pretende Treinar?</HeaderText>
 
+      {/* TODO: To Refactoring this peace of code in an iteration */}
       <DaysArea>
         <DefaultButton onPress={()=>toggleDay(1)}
           width={100} style={{marginBottom: 20}} underlayColor="#CCC"
