@@ -38,6 +38,7 @@ const Page = props => {
   let today = new Date();
 
   const [selectedMonth, setSelectedMonth] = useState(today.getMonth());
+  const [selectedDay, setSelectedDay] = useState(today.getDate());
 
   return (
     <Container>
@@ -45,8 +46,25 @@ const Page = props => {
         selectedMonth={selectedMonth}
         setSelectedMonth={setSelectedMonth}
       />
-      <HomeDaysScroll />
-      <HomeDayStatus />
+      <HomeDaysScroll
+        selectedMonth={selectedMonth}
+        selectedDay={selectedDay}
+        setSelectedDay={setSelectedDay}
+
+        dailyProgress={props.dailyProgress}
+        workoutDays={props.workoutDays}
+      />
+      <HomeDayStatus
+        selectedMonth={selectedMonth}
+        selectedDay={selectedDay}
+        setSelectedDay={setSelectedDay}
+        dailyProgress={props.dailyProgress}
+        workoutDays={props.workoutDays}
+
+        addProgress={props.addProgress}
+        delProgress={props.delProgress}
+        goToWorkout={()=>props.navigation.navigate('WorkoutStack')}
+      />
 
       <Legend>
         <LegendText>Legenda:</LegendText>
@@ -93,7 +111,7 @@ Page.navigationOptions = ({navigation}) => {
     };
 
     return (
-      <ConfigButtonArea onPress={btnAction} >
+      <ConfigButtonArea onPress={btnAction} underlayColor="transparent" >
         <ConfigButtonImage source={require('../assets/config.png')} />
       </ConfigButtonArea>
     );
@@ -101,6 +119,9 @@ Page.navigationOptions = ({navigation}) => {
 
   return {
     title: 'Seu progresso diário',
+    headerTitleContainerStyle: {
+      justifyContent: 'center',
+    },
     headerRight: <ConfigButton />,
     headerRightContainerStyle: {marginRight: 10},
   };
@@ -108,11 +129,16 @@ Page.navigationOptions = ({navigation}) => {
 
 const mapStateToProps = state => {
   return {
+    dailyProgress: state.userReducer.dailyProgress,
+    // dailyProgress: ['2022-08-14', '2022-08-15'],
+    workoutDays: state.userReducer.workoutDays,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
+    addProgress: date=> dispatch({type: 'USER_ADD_PROGRESS', payload: {date}}),
+    delProgress: date=> dispatch({type: 'USER_DEL_PROGRESS', payload: {date}}),
   };
 };
 

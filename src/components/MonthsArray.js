@@ -1,7 +1,7 @@
 export default [
     'Janeiro',
     'Fevereiro',
-    'Marça',
+    'Março',
     'Abril',
     'Maio',
     'Junho',
