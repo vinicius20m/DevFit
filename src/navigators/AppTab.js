@@ -3,9 +3,16 @@ import { createBottomTabNavigator } from "react-navigation-tabs";
 import CustomTabBar from "../components/CustomTabBar";
 
 import HomeStack from "./HomeStack";
+import MyWorkoutsStack from "./MyWorkoutsStack";
+import WorkoutStack from "./WorkoutStack";
 
 export default createBottomTabNavigator({
   HomeStack,
+  MyWorkoutsStack,
+  WorkoutStack: {
+    screen: WorkoutStack,
+    navigationOptions: {tabBarVisible: false,},
+  },
 }, {
   tabBarComponent: props => (
     <CustomTabBar
@@ -26,7 +33,7 @@ export default createBottomTabNavigator({
           type: 'regular',
           text: 'Meus Treinos',
           icon: require('../assets/myworkouts.png'),
-          route: 'MyWorkoutStack'
+          route: 'MyWorkoutsStack'
         },
       ]}
     />

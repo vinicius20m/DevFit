@@ -55,6 +55,18 @@ export default props => {
     props.addAction();
   }
 
+  const editWorkout = () => {
+    props.editAction();
+  }
+
+  const delWorkout = () => {
+    props.delAction();
+  }
+
+  const goWorkout = () => {
+    props.goAction();
+  }
+
   let muscleGroups = [];
   for (let i in props.data.exercises) {
     if(!muscleGroups.includes(props.data.exercises[i].muscle)) {
@@ -75,10 +87,27 @@ export default props => {
         </MuscleScroll>
       </WorkoutInfo>
       <WorkoutActions>
-        <WorkoutButton onPress={()=>addWorkout()} underlayColor="transparent" >
-          <WorkoutButtonImage source={included?require('../assets/check-black.png'):require('../assets/add.png')} />
-        </WorkoutButton>
-      </WorkoutActions>
+        {props.addAction &&
+          <WorkoutButton onPress={()=>addWorkout()} underlayColor="transparent" >
+            <WorkoutButtonImage source={included?require('../assets/check-black.png'):require('../assets/add.png')} />
+          </WorkoutButton>
+        }
+        {props.editAction &&
+          <WorkoutButton onPress={()=>editWorkout()} underlayColor="transparent" >
+            <WorkoutButtonImage source={require('../assets/edit-black.png')} />
+          </WorkoutButton>
+        }
+        {props.delAction &&
+          <WorkoutButton onPress={()=>delWorkout()} underlayColor="transparent" >
+            <WorkoutButtonImage source={require('../assets/trash-black.png')} />
+          </WorkoutButton>
+        }
+        {props.goAction &&
+          <WorkoutButton onPress={()=>goWorkout()} underlayColor="transparent" >
+            <WorkoutButtonImage source={require('../assets/play-black.png')} />
+          </WorkoutButton>
+        }
+        </WorkoutActions>
     </Workout>
   );
 }

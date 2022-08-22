@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from "react";
-import styled from 'styled-components';
+import styled from 'styled-components/native';
 import {connect} from 'react-redux';
 import { Alert } from "react-native";
+import { NavigationActions, StackActions } from "react-navigation";
 
 //---------------- STYLED COMPONENTS ---------------------------------
 //---------------- STYLED COMPONENTS ---------------------------------
@@ -46,6 +47,7 @@ const LevelItem = styled.TouchableHighlight`
   align-items: center;
 `;
 const LevelItemText = styled.Text``;
+const ResetButton = styled.Button``;
 
 //---- END ------------ STYLED COMPONENTS -------------- END ---------------
 
@@ -65,6 +67,16 @@ const Page = props => {
     props.setWorkoutDays(newWorkoutDays);
   }
 
+  const handleReset = () => {
+    props.reset();
+    const resetAction = StackActions.reset({
+      index: 0,
+      actions:[NavigationActions.navigate({routeName: 'StarterStack'})],
+    });
+
+    props.navigation.dispatch(resetAction);
+  }
+
   let weekDays = [];
   weekDays[1] = 'S';
   weekDays[2] = 'T';
@@ -73,7 +85,6 @@ const Page = props => {
   weekDays[5] = 'S';
   weekDays[6] = 'S';
   weekDays[0] = 'D';
-
 
   return (
     <Container>
@@ -109,6 +120,9 @@ const Page = props => {
           <LevelItemText>Avançado</LevelItemText>
         </LevelItem>
       </ListArea>
+
+      <Label>Você quer resetar tudo?</Label>
+      <ResetButton title="Resetar Tudo" onPress={handleReset} />
     </Container>
   );
 }
@@ -117,9 +131,6 @@ Page.navigationOptions = ({navigation}) => {
 
   return {
     title: 'Configurações',
-    headerTitleContainerStyle: {
-      justifyContent: 'center',
-    },
   };
 };
 
@@ -136,6 +147,7 @@ const mapDispatchToProps = dispatch => {
     setName: name=> dispatch({type: 'USER_SET_NAME', payload: {name}}),
     setWorkoutDays: workoutDays=> dispatch({type: 'USER_SET_WORKOUTDAYS', payload: {workoutDays}}),
     setLevel: level=> dispatch({type: 'USER_SET_LEVEL', payload: {level}}),
+    reset: ()=> dispatch({type: 'USER_RESET'}),
   };
 };
 
